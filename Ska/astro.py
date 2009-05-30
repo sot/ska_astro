@@ -21,14 +21,23 @@ class Equatorial(object):
     decd, decm, decs   Declination deg, min, sec
     ================== =========================
 
+    The sexigesimal delimiter is controlled by the ``delim`` attribute and is
+    the colon character by default.
+
     Examples::
 
       >>> pos = Ska.astro.Equatorial(123.4, "-34.12")
       >>> pos = Ska.astro.Equatorial("12:01:02.34, -34:12:34.11")
       >>> pos = Ska.astro.Equatorial("12 01 02.34", "-34d12m34.11s")
       >>> print pos
+      >>> print pos
+      RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11
+      >>> pos.delim = " "
+      >>> print pos
+      RA, Dec = 180.25975, -34.2095 = 12 01 02.340, -34 12 34.11
     """
     def __init__(self, *args):
+        self.delim = ':'
         argstr = ' '.join(str(x).strip() for x in args)
         argstr = re.sub(r'[,:dhms]', ' ', argstr)
         args = argstr.split()
@@ -70,9 +79,11 @@ class Equatorial(object):
         for attr in ('ra', 'dec', 'rah', 'ram', 'ras', 'decsign', 'decd', 'decm', 'decs', 'ra0'):
             setattr(self, attr, eval(attr))
 
-        # Generate good sexigesimal strings.  Little bit tricky because of
-        # floating point and rollover issues.  There is probably a better way...
-        s_ras = "%06.3f" % ras
+    # Generate good sexigesimal strings.  Little bit tricky because of
+    # floating point and rollover issues.  There is probably a better way...
+    def get_ra_hms(self):
+        ram, rah = self.ram, self.rah
+        s_ras = "%06.3f" % self.ras
         if s_ras == '60.000':
             s_ras = '00.000'
             ram += 1
@@ -83,9 +94,12 @@ class Equatorial(object):
         s_rah = "%02d" % rah
         if s_rah == '24':
             s_rah = '00'
-        self.ra_hms = '%s:%s:%s' % (s_rah, s_ram, s_ras)
+        return self.delim.join([s_rah, s_ram, s_ras])
+    ra_hms = property(get_ra_hms)
 
-        s_decs = "%05.2f" % decs
+    def get_dec_dms(self):
+        decm, decd = self.decm, self.decd
+        s_decs = "%05.2f" % self.decs
         if s_decs == '60.00':
             s_decs = '00.00'
             decm += 1
@@ -94,8 +108,9 @@ class Equatorial(object):
             s_decm = '00'
             decd += 1
         s_decd = "%02d" % decd
-	self.dec_dms = "%s%s:%s:%s" % (decsign, s_decd, s_decm, s_decs)
-
+	return self.decsign + self.delim.join([s_decd, s_decm, s_decs])
+    dec_dms = property(get_dec_dms)
+    
     def __str__(self):
         return 'RA, Dec = %.5f, %.4f = %s, %s' % (self.ra, self.dec, self.ra_hms, self.dec_dms)
 
