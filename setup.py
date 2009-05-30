@@ -1,5 +1,5 @@
 from setuptools import setup
-setup(name='Ska.astroutil',
+setup(name='Ska.astro',
       author = 'Tom Aldcroft',
       description='Astronomy utilities',
       author_email = 'aldcroft@head.cfa.harvard.edu',
