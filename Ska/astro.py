@@ -112,5 +112,37 @@ class Equatorial(object):
     dec_dms = property(get_dec_dms)
     
     def __str__(self):
-        return 'RA, Dec = %.5f, %.4f = %s, %s' % (self.ra, self.dec, self.ra_hms, self.dec_dms)
+        return 'RA, Dec = %.5f, %.4f = %s, %s' % (self.ra, self.dec,
+                                                  self.ra_hms, self.dec_dms)
 
+def sph_dist(a1, d1, a2, d2):
+    """Calculate spherical distance between two sky positions.  Uses the haversine
+    formula so accuracy degrades at distances near 180 degrees.
+
+    The input coordinates can be either native python types (float, int) or
+    numpy arrays.  The output will matchin the input type.
+
+    :param a1: RA position 1 (deg)
+    :param d1: dec position 1 (deg)
+    :param a2: RA position 2 (deg)
+    :param d2: dec position 2 (deg)
+
+    :rtype: spherical distance (deg)
+    """
+    import numpy as np
+
+    def haversine(theta):
+        return np.sin(theta/2)**2
+
+    ndarray = any(isinstance(x, np.ndarray) for x in (a1, d1, a2, d2))
+
+    a1 = np.radians(a1)
+    d1 = np.radians(d1)
+    a2 = np.radians(a2)
+    d2 = np.radians(d2)
+
+    h = haversine(d1-d2) + np.cos(d1) * np.cos(d2) * haversine(a1-a2)
+    h = np.where(abs(h) > 1.0, np.sign(h), h)
+    dist = degrees(2 * asin(sqrt(h)))
+
+    return (dist if ndarray else dist.tolist())
