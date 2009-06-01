@@ -122,6 +122,11 @@ def sph_dist(a1, d1, a2, d2):
     The input coordinates can be either native python types (float, int) or
     numpy arrays.  The output will matchin the input type.
 
+    >>> Ska.astro.sph_dist(1, 2, 3, 4)
+    2.8264172166623145
+    >>> Ska.astro.sph_dist(1, 2, np.array([1,2,3,4]), np.array([4,5,6,7]))
+    array([ 2.        ,  3.16165191,  4.46977556,  5.82570185])
+
     :param a1: RA position 1 (deg)
     :param d1: dec position 1 (deg)
     :param a2: RA position 2 (deg)
@@ -143,6 +148,6 @@ def sph_dist(a1, d1, a2, d2):
 
     h = haversine(d1-d2) + np.cos(d1) * np.cos(d2) * haversine(a1-a2)
     h = np.where(abs(h) > 1.0, np.sign(h), h)
-    dist = np.degrees(2 * asin(sqrt(h)))
+    dist = np.degrees(2 * np.arcsin(np.sqrt(h)))
 
     return (dist if ndarray else dist.tolist())
