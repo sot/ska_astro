@@ -143,6 +143,6 @@ def sph_dist(a1, d1, a2, d2):
 
     h = haversine(d1-d2) + np.cos(d1) * np.cos(d2) * haversine(a1-a2)
     h = np.where(abs(h) > 1.0, np.sign(h), h)
-    dist = degrees(2 * asin(sqrt(h)))
+    dist = np.degrees(2 * asin(sqrt(h)))
 
     return (dist if ndarray else dist.tolist())
