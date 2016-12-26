@@ -9,7 +9,7 @@ class Equatorial(object):
     numeric arguments that contain a total of either two or six numerical
     values.  Any separators in the list [,:dhms] are converted to <space>
     before splitting into numerical values.
-    
+
     The following attributes will then be available:
 
     ================== =========================
@@ -29,11 +29,10 @@ class Equatorial(object):
       >>> pos = Ska.astro.Equatorial(123.4, "-34.12")
       >>> pos = Ska.astro.Equatorial("12:01:02.34, -34:12:34.11")
       >>> pos = Ska.astro.Equatorial("12 01 02.34", "-34d12m34.11s")
-      >>> print pos
-      >>> print pos
+      >>> print(pos)
       RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11
       >>> pos.delim = " "
-      >>> print pos
+      >>> print(pos)
       RA, Dec = 180.25975, -34.2095 = 12 01 02.340, -34 12 34.11
     """
     def __init__(self, *args):
@@ -61,7 +60,7 @@ class Equatorial(object):
             rah = int(args[0])
             ram = int(args[1])
             ras = float(args[2])
-            
+
             decsign = '-' if args[3].startswith('-') else '+'
             decd = abs(int(args[3]))
             decm = int(args[4])
@@ -108,9 +107,10 @@ class Equatorial(object):
             s_decm = '00'
             decd += 1
         s_decd = "%02d" % decd
-	return self.decsign + self.delim.join([s_decd, s_decm, s_decs])
+        return self.decsign + self.delim.join([s_decd, s_decm, s_decs])
+
     dec_dms = property(get_dec_dms)
-    
+
     def __str__(self):
         return 'RA, Dec = %.5f, %.4f = %s, %s' % (self.ra, self.dec,
                                                   self.ra_hms, self.dec_dms)
