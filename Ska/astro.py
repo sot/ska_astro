@@ -2,6 +2,10 @@
 import re
 from math import floor
 
+import ska_helpers
+
+__version__ = ska_helpers.get_version(__package__)
+
 class Equatorial(object):
     """Bare-bones class to get between decimal and sexigesimal representations of
     equatorial coordinates.
