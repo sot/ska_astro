@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ska.astro &#8212; Ska.astro 3.2.5.dev5+g0b90511 documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="#"><span id="logotext1">Ska! </span><span id="logotext2">Ska</span><span id="logotext3">.astro</span></a>
+  <ul>
+    
+    <li><a class="home" title="Homepage" href="">
+        <span id="logotext1"></span><span id="logotext2"></span>
+    </a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="#">Ska.astro 3.2.5.dev5+g0b90511 documentation</a>
+	 &#187;
+      </li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Ska.astro">
+<span id="ska-astro"></span><h1><a class="reference internal" href="#module-Ska.astro" title="Ska.astro"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ska.astro</span></code></a><a class="headerlink" href="#module-Ska.astro" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="Ska.astro.Equatorial">
+<em class="property">class </em><code class="sig-prename descclassname">Ska.astro.</code><code class="sig-name descname">Equatorial</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ska/astro.html#Equatorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Ska.astro.Equatorial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bare-bones class to get between decimal and sexigesimal representations of
+equatorial coordinates.</p>
+<p>Initialize an <code class="docutils literal notranslate"><span class="pre">Equatorial</span></code> object with any combination of string or
+numeric arguments that contain a total of either two or six numerical
+values.  Any separators in the list [,:dhms] are converted to &lt;space&gt;
+before splitting into numerical values.</p>
+<p>The following attributes will then be available:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 58%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>ra, dec</p></td>
+<td><p>Decimal (0 &lt;= ra &lt; 360)</p></td>
+</tr>
+<tr class="row-even"><td><p>ra0</p></td>
+<td><p>RA (-180 &lt; ra &lt;= 180)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ra_hms, dec_dms</p></td>
+<td><p>Sexigesimal string</p></td>
+</tr>
+<tr class="row-even"><td><p>rah, ram, ras</p></td>
+<td><p>RA hour, min, sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>decsign</p></td>
+<td><p>Declination sign (+|-)</p></td>
+</tr>
+<tr class="row-even"><td><p>decd, decm, decs</p></td>
+<td><p>Declination deg, min, sec</p></td>
+</tr>
+</tbody>
+</table>
+<p>The sexigesimal delimiter is controlled by the <code class="docutils literal notranslate"><span class="pre">delim</span></code> attribute and is
+the colon character by default.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="mf">123.4</span><span class="p">,</span> <span class="s2">&quot;-34.12&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12:01:02.34, -34:12:34.11&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12 01 02.34&quot;</span><span class="p">,</span> <span class="s2">&quot;-34d12m34.11s&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<span class="go">RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span><span class="o">.</span><span class="n">delim</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+<span class="go">RA, Dec = 180.25975, -34.2095 = 12 01 02.340, -34 12 34.11</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Ska.astro.sph_dist">
+<code class="sig-prename descclassname">Ska.astro.</code><code class="sig-name descname">sph_dist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a1</span></em>, <em class="sig-param"><span class="n">d1</span></em>, <em class="sig-param"><span class="n">a2</span></em>, <em class="sig-param"><span class="n">d2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ska/astro.html#sph_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Ska.astro.sph_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate spherical distance between two sky positions.  Uses the haversine
+formula so accuracy degrades at distances near 180 degrees.</p>
+<p>The input coordinates can be either native python types (float, int) or
+numpy arrays.  The output will matchin the input type.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">2.8264172166623145</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]))</span>
+<span class="go">array([ 2.        ,  3.16165191,  4.46977556,  5.82570185])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a1</strong> – RA position 1 (deg)</p></li>
+<li><p><strong>d1</strong> – dec position 1 (deg)</p></li>
+<li><p><strong>a2</strong> – RA position 2 (deg)</p></li>
+<li><p><strong>d2</strong> – dec position 2 (deg)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>spherical distance (deg)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ska.astro</span></code></a></li>
+</ul>
+
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="_sources/index.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2020, Tom Aldcroft.<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 3.1.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ska.astro &#8212; Ska.astro 3.2.5.dev5+g0b90511 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">Ska! </span><span id="logotext2">Ska</span><span id="logotext3">.astro</span></a>
+  <ul>
+    
+    <li><a class="home" title="Homepage" href="">
+        <span id="logotext1"></span><span id="logotext2"></span>
+    </a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../index.html">Ska.astro 3.2.5.dev5+g0b90511 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Ska.astro</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
+
+<span class="kn">import</span> <span class="nn">ska_helpers</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="n">ska_helpers</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Equatorial"><a class="viewcode-back" href="../../index.html#Ska.astro.Equatorial">[docs]</a><span class="k">class</span> <span class="nc">Equatorial</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bare-bones class to get between decimal and sexigesimal representations of</span>
+<span class="sd">    equatorial coordinates.</span>
+
+<span class="sd">    Initialize an ``Equatorial`` object with any combination of string or</span>
+<span class="sd">    numeric arguments that contain a total of either two or six numerical</span>
+<span class="sd">    values.  Any separators in the list [,:dhms] are converted to &lt;space&gt;</span>
+<span class="sd">    before splitting into numerical values.</span>
+
+<span class="sd">    The following attributes will then be available:</span>
+
+<span class="sd">    ================== =========================</span>
+<span class="sd">    ra, dec            Decimal (0 &lt;= ra &lt; 360)</span>
+<span class="sd">    ra0                RA (-180 &lt; ra &lt;= 180)</span>
+<span class="sd">    ra_hms, dec_dms    Sexigesimal string</span>
+<span class="sd">    rah, ram, ras      RA hour, min, sec</span>
+<span class="sd">    decsign            Declination sign (+|-)</span>
+<span class="sd">    decd, decm, decs   Declination deg, min, sec</span>
+<span class="sd">    ================== =========================</span>
+
+<span class="sd">    The sexigesimal delimiter is controlled by the ``delim`` attribute and is</span>
+<span class="sd">    the colon character by default.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(123.4, &quot;-34.12&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(&quot;12:01:02.34, -34:12:34.11&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(&quot;12 01 02.34&quot;, &quot;-34d12m34.11s&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; print(pos)</span>
+<span class="sd">      RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11</span>
+<span class="sd">      &gt;&gt;&gt; pos.delim = &quot; &quot;</span>
+<span class="sd">      &gt;&gt;&gt; print(pos)</span>
+<span class="sd">      RA, Dec = 180.25975, -34.2095 = 12 01 02.340, -34 12 34.11</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delim</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span>
+        <span class="n">argstr</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+        <span class="n">argstr</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[,:dhms]&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">argstr</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">argstr</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+            <span class="n">ra</span> <span class="o">=</span> <span class="n">ra</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">ra</span> <span class="o">/</span> <span class="mf">360.</span><span class="p">)</span> <span class="o">*</span> <span class="mi">360</span>
+
+            <span class="n">ra15</span> <span class="o">=</span> <span class="n">ra</span> <span class="o">/</span> <span class="mf">15.</span>
+            <span class="n">rah</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">ra15</span><span class="p">))</span>
+            <span class="n">ram</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">((</span><span class="n">ra15</span> <span class="o">-</span> <span class="n">rah</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span>
+            <span class="n">ras</span> <span class="o">=</span> <span class="p">(</span><span class="n">ra15</span> <span class="o">-</span> <span class="n">rah</span> <span class="o">-</span> <span class="n">ram</span> <span class="o">/</span> <span class="mf">60.</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+
+            <span class="n">decsign</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="n">dec</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">absdec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dec</span><span class="p">)</span>
+            <span class="n">decd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">absdec</span><span class="p">))</span>
+            <span class="n">decm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">((</span><span class="n">absdec</span> <span class="o">-</span> <span class="n">decd</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span>
+            <span class="n">decs</span> <span class="o">=</span> <span class="p">(</span><span class="n">absdec</span> <span class="o">-</span> <span class="n">decd</span> <span class="o">-</span> <span class="n">decm</span> <span class="o">/</span> <span class="mf">60.</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">rah</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">ram</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">ras</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+            <span class="n">decsign</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">decd</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="n">decm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">decs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+
+            <span class="n">ra</span> <span class="o">=</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">rah</span> <span class="o">+</span> <span class="n">ram</span><span class="o">/</span><span class="mf">60.</span> <span class="o">+</span> <span class="n">ras</span><span class="o">/</span><span class="mf">3600.</span><span class="p">)</span>
+            <span class="n">dec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">decd</span><span class="p">)</span> <span class="o">+</span> <span class="n">decm</span><span class="o">/</span><span class="mf">60.</span> <span class="o">+</span> <span class="n">decs</span><span class="o">/</span><span class="mf">3600.</span>
+            <span class="k">if</span> <span class="n">decsign</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+                <span class="n">dec</span> <span class="o">=</span> <span class="o">-</span><span class="n">dec</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Input args </span><span class="si">%s</span><span class="s1"> does not have 2 or 6 values&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="p">)</span>
+
+        <span class="n">ra0</span> <span class="o">=</span> <span class="n">ra</span> <span class="o">-</span> <span class="p">(</span><span class="mi">360</span> <span class="k">if</span> <span class="n">ra</span> <span class="o">&gt;</span> <span class="mi">180</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="s1">&#39;dec&#39;</span><span class="p">,</span> <span class="s1">&#39;rah&#39;</span><span class="p">,</span> <span class="s1">&#39;ram&#39;</span><span class="p">,</span> <span class="s1">&#39;ras&#39;</span><span class="p">,</span> <span class="s1">&#39;decsign&#39;</span><span class="p">,</span> <span class="s1">&#39;decd&#39;</span><span class="p">,</span> <span class="s1">&#39;decm&#39;</span><span class="p">,</span> <span class="s1">&#39;decs&#39;</span><span class="p">,</span> <span class="s1">&#39;ra0&#39;</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">eval</span><span class="p">(</span><span class="n">attr</span><span class="p">))</span>
+
+    <span class="c1"># Generate good sexigesimal strings.  Little bit tricky because of</span>
+    <span class="c1"># floating point and rollover issues.  There is probably a better way...</span>
+    <span class="k">def</span> <span class="nf">get_ra_hms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ram</span><span class="p">,</span> <span class="n">rah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ram</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rah</span>
+        <span class="n">s_ras</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%06.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">ras</span>
+        <span class="k">if</span> <span class="n">s_ras</span> <span class="o">==</span> <span class="s1">&#39;60.000&#39;</span><span class="p">:</span>
+            <span class="n">s_ras</span> <span class="o">=</span> <span class="s1">&#39;00.000&#39;</span>
+            <span class="n">ram</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">s_ram</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ram</span>
+        <span class="k">if</span> <span class="n">s_ram</span> <span class="o">==</span> <span class="s1">&#39;60&#39;</span><span class="p">:</span>
+            <span class="n">s_ram</span> <span class="o">=</span> <span class="s1">&#39;00&#39;</span>
+            <span class="n">rah</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">s_rah</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">rah</span>
+        <span class="k">if</span> <span class="n">s_rah</span> <span class="o">==</span> <span class="s1">&#39;24&#39;</span><span class="p">:</span>
+            <span class="n">s_rah</span> <span class="o">=</span> <span class="s1">&#39;00&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delim</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s_rah</span><span class="p">,</span> <span class="n">s_ram</span><span class="p">,</span> <span class="n">s_ras</span><span class="p">])</span>
+    <span class="n">ra_hms</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_ra_hms</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_dec_dms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">decm</span><span class="p">,</span> <span class="n">decd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decd</span>
+        <span class="n">s_decs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%05.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">decs</span>
+        <span class="k">if</span> <span class="n">s_decs</span> <span class="o">==</span> <span class="s1">&#39;60.00&#39;</span><span class="p">:</span>
+            <span class="n">s_decs</span> <span class="o">=</span> <span class="s1">&#39;00.00&#39;</span>
+            <span class="n">decm</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">s_decm</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">decm</span>
+        <span class="k">if</span> <span class="n">s_decm</span> <span class="o">==</span> <span class="s1">&#39;60&#39;</span><span class="p">:</span>
+            <span class="n">s_decm</span> <span class="o">=</span> <span class="s1">&#39;00&#39;</span>
+            <span class="n">decd</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">s_decd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">decd</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decsign</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">delim</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s_decd</span><span class="p">,</span> <span class="n">s_decm</span><span class="p">,</span> <span class="n">s_decs</span><span class="p">])</span>
+
+    <span class="n">dec_dms</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_dec_dms</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;RA, Dec = </span><span class="si">%.5f</span><span class="s1">, </span><span class="si">%.4f</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">,</span>
+                                                  <span class="bp">self</span><span class="o">.</span><span class="n">ra_hms</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec_dms</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sph_dist"><a class="viewcode-back" href="../../index.html#Ska.astro.sph_dist">[docs]</a><span class="k">def</span> <span class="nf">sph_dist</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate spherical distance between two sky positions.  Uses the haversine</span>
+<span class="sd">    formula so accuracy degrades at distances near 180 degrees.</span>
+
+<span class="sd">    The input coordinates can be either native python types (float, int) or</span>
+<span class="sd">    numpy arrays.  The output will matchin the input type.</span>
+
+<span class="sd">    &gt;&gt;&gt; Ska.astro.sph_dist(1, 2, 3, 4)</span>
+<span class="sd">    2.8264172166623145</span>
+<span class="sd">    &gt;&gt;&gt; Ska.astro.sph_dist(1, 2, np.array([1,2,3,4]), np.array([4,5,6,7]))</span>
+<span class="sd">    array([ 2.        ,  3.16165191,  4.46977556,  5.82570185])</span>
+
+<span class="sd">    :param a1: RA position 1 (deg)</span>
+<span class="sd">    :param d1: dec position 1 (deg)</span>
+<span class="sd">    :param a2: RA position 2 (deg)</span>
+<span class="sd">    :param d2: dec position 2 (deg)</span>
+
+<span class="sd">    :rtype: spherical distance (deg)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+    <span class="k">def</span> <span class="nf">haversine</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="n">ndarray</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">d2</span><span class="p">))</span>
+
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+    <span class="n">a2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">haversine</span><span class="p">(</span><span class="n">d1</span><span class="o">-</span><span class="n">d2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">*</span> <span class="n">haversine</span><span class="p">(</span><span class="n">a1</span><span class="o">-</span><span class="n">a2</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">h</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">dist</span> <span class="k">if</span> <span class="n">ndarray</span> <span class="k">else</span> <span class="n">dist</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2020, Tom Aldcroft.<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 3.1.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>
