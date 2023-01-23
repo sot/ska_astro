@@ -4,16 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ska.astro &#8212; Ska.astro 3.3.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ska_astro.astro &#8212; ska_astro 4.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-astropy.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/sidebar.js"></script>
     <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -22,7 +21,7 @@
 
   </head><body>
 <div class="topbar">
-  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">Ska! </span><span id="logotext2">Ska</span><span id="logotext3">.astro</span></a>
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">Ska! </span><span id="logotext2">ska_astro</span><span id="logotext3"></span></a>
   <ul>
     
     <li><a class="home" title="Homepage" href="https://cxc.cfa.harvard.edu/mta/ASPECT/tool_doc">
@@ -47,7 +46,7 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-	<a href="../../index.html">Ska.astro 3.3.0 documentation</a>
+	<a href="../../index.html">ska_astro 4.0.0 documentation</a>
 	 &#187;
       </li>
       <li><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
@@ -62,16 +61,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for Ska.astro</h1><div class="highlight"><pre>
+  <h1>Source code for ska_astro.astro</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
 
-<span class="kn">import</span> <span class="nn">ska_helpers</span>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="n">ska_helpers</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<div class="viewcode-block" id="Equatorial"><a class="viewcode-back" href="../../index.html#Ska.astro.Equatorial">[docs]</a><span class="k">class</span> <span class="nc">Equatorial</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Equatorial"><a class="viewcode-back" href="../../index.html#ska_astro.astro.Equatorial">[docs]</a><span class="k">class</span> <span class="nc">Equatorial</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Bare-bones class to get between decimal and sexigesimal representations of</span>
 <span class="sd">    equatorial coordinates.</span>
 
@@ -96,9 +92,9 @@
 
 <span class="sd">    Examples::</span>
 
-<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(123.4, &quot;-34.12&quot;)</span>
-<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(&quot;12:01:02.34, -34:12:34.11&quot;)</span>
-<span class="sd">      &gt;&gt;&gt; pos = Ska.astro.Equatorial(&quot;12 01 02.34&quot;, &quot;-34d12m34.11s&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; pos = ska_astro.Equatorial(123.4, &quot;-34.12&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; pos = ska_astro.Equatorial(&quot;12:01:02.34, -34:12:34.11&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; pos = ska_astro.Equatorial(&quot;12 01 02.34&quot;, &quot;-34d12m34.11s&quot;)</span>
 <span class="sd">      &gt;&gt;&gt; print(pos)</span>
 <span class="sd">      RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11</span>
 <span class="sd">      &gt;&gt;&gt; pos.delim = &quot; &quot;</span>
@@ -185,16 +181,16 @@
         <span class="k">return</span> <span class="s1">&#39;RA, Dec = </span><span class="si">%.5f</span><span class="s1">, </span><span class="si">%.4f</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">,</span>
                                                   <span class="bp">self</span><span class="o">.</span><span class="n">ra_hms</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec_dms</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="sph_dist"><a class="viewcode-back" href="../../index.html#Ska.astro.sph_dist">[docs]</a><span class="k">def</span> <span class="nf">sph_dist</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
+<div class="viewcode-block" id="sph_dist"><a class="viewcode-back" href="../../index.html#ska_astro.astro.sph_dist">[docs]</a><span class="k">def</span> <span class="nf">sph_dist</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate spherical distance between two sky positions.  Uses the haversine</span>
 <span class="sd">    formula so accuracy degrades at distances near 180 degrees.</span>
 
 <span class="sd">    The input coordinates can be either native python types (float, int) or</span>
 <span class="sd">    numpy arrays.  The output will matchin the input type.</span>
 
-<span class="sd">    &gt;&gt;&gt; Ska.astro.sph_dist(1, 2, 3, 4)</span>
+<span class="sd">    &gt;&gt;&gt; ska_astro.sph_dist(1, 2, 3, 4)</span>
 <span class="sd">    2.8264172166623145</span>
-<span class="sd">    &gt;&gt;&gt; Ska.astro.sph_dist(1, 2, np.array([1,2,3,4]), np.array([4,5,6,7]))</span>
+<span class="sd">    &gt;&gt;&gt; ska_astro.sph_dist(1, 2, np.array([1,2,3,4]), np.array([4,5,6,7]))</span>
 <span class="sd">    array([ 2.        ,  3.16165191,  4.46977556,  5.82570185])</span>
 
 <span class="sd">    :param a1: RA position 1 (deg)</span>
@@ -245,7 +241,7 @@
     <a href="#">Back to Top</a></p>
   <p>
     &copy; Copyright 2020, Tom Aldcroft.<br/>
-    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 3.1.2. &nbsp;
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 4.2.0. &nbsp;
   </p>
 </footer>
   </body>

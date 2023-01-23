@@ -4,16 +4,16 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ska.astro &#8212; Ska.astro 3.3.0 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ska_astro &#8212; ska_astro 4.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-astropy.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
     <script type="text/javascript" src="_static/copybutton.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -22,7 +22,7 @@
 
   </head><body>
 <div class="topbar">
-  <a class="brand" title="Documentation Home" href="#"><span id="logotext1">Ska! </span><span id="logotext2">Ska</span><span id="logotext3">.astro</span></a>
+  <a class="brand" title="Documentation Home" href="#"><span id="logotext1">Ska! </span><span id="logotext2">ska_astro</span><span id="logotext3"></span></a>
   <ul>
     
     <li><a class="home" title="Homepage" href="https://cxc.cfa.harvard.edu/mta/ASPECT/tool_doc">
@@ -47,7 +47,7 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-	<a href="#">Ska.astro 3.3.0 documentation</a>
+	<a href="#">ska_astro 4.0.0 documentation</a>
 	 &#187;
       </li>
       
@@ -61,11 +61,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-Ska.astro">
-<span id="ska-astro"></span><h1><a class="reference internal" href="#module-Ska.astro" title="Ska.astro"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ska.astro</span></code></a><a class="headerlink" href="#module-Ska.astro" title="Permalink to this headline">¶</a></h1>
+  <section id="module-ska_astro.astro">
+<span id="ska-astro"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">ska_astro</span></code><a class="headerlink" href="#module-ska_astro.astro" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="Ska.astro.Equatorial">
-<em class="property">class </em><code class="sig-prename descclassname">Ska.astro.</code><code class="sig-name descname">Equatorial</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ska/astro.html#Equatorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Ska.astro.Equatorial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ska_astro.astro.Equatorial">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ska_astro.astro.</span></span><span class="sig-name descname"><span class="pre">Equatorial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ska_astro/astro.html#Equatorial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ska_astro.astro.Equatorial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bare-bones class to get between decimal and sexigesimal representations of
 equatorial coordinates.</p>
 <p>Initialize an <code class="docutils literal notranslate"><span class="pre">Equatorial</span></code> object with any combination of string or
@@ -102,9 +102,9 @@ before splitting into numerical values.</p>
 <p>The sexigesimal delimiter is controlled by the <code class="docutils literal notranslate"><span class="pre">delim</span></code> attribute and is
 the colon character by default.</p>
 <p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="mf">123.4</span><span class="p">,</span> <span class="s2">&quot;-34.12&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12:01:02.34, -34:12:34.11&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12 01 02.34&quot;</span><span class="p">,</span> <span class="s2">&quot;-34d12m34.11s&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">ska_astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="mf">123.4</span><span class="p">,</span> <span class="s2">&quot;-34.12&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">ska_astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12:01:02.34, -34:12:34.11&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">ska_astro</span><span class="o">.</span><span class="n">Equatorial</span><span class="p">(</span><span class="s2">&quot;12 01 02.34&quot;</span><span class="p">,</span> <span class="s2">&quot;-34d12m34.11s&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 <span class="go">RA, Dec = 180.25975, -34.2095 = 12:01:02.340, -34:12:34.11</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span><span class="o">.</span><span class="n">delim</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
@@ -115,15 +115,15 @@ the colon character by default.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="Ska.astro.sph_dist">
-<code class="sig-prename descclassname">Ska.astro.</code><code class="sig-name descname">sph_dist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a1</span></em>, <em class="sig-param"><span class="n">d1</span></em>, <em class="sig-param"><span class="n">a2</span></em>, <em class="sig-param"><span class="n">d2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ska/astro.html#sph_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Ska.astro.sph_dist" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ska_astro.astro.sph_dist">
+<span class="sig-prename descclassname"><span class="pre">ska_astro.astro.</span></span><span class="sig-name descname"><span class="pre">sph_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ska_astro/astro.html#sph_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ska_astro.astro.sph_dist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate spherical distance between two sky positions.  Uses the haversine
 formula so accuracy degrades at distances near 180 degrees.</p>
 <p>The input coordinates can be either native python types (float, int) or
 numpy arrays.  The output will matchin the input type.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ska_astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="go">2.8264172166623145</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Ska</span><span class="o">.</span><span class="n">astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ska_astro</span><span class="o">.</span><span class="n">sph_dist</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]))</span>
 <span class="go">array([ 2.        ,  3.16165191,  4.46977556,  5.82570185])</span>
 </pre></div>
 </div>
@@ -142,7 +142,7 @@ numpy arrays.  The output will matchin the input type.</p>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
             <div class="clearer"></div>
@@ -152,7 +152,7 @@ numpy arrays.  The output will matchin the input type.</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
 <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ska.astro</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ska_astro</span></code></a></li>
 </ul>
 
 
@@ -179,7 +179,7 @@ numpy arrays.  The output will matchin the input type.</p>
     <a href="#">Back to Top</a></p>
   <p>
     &copy; Copyright 2020, Tom Aldcroft.<br/>
-    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 3.1.2. &nbsp;
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 4.2.0. &nbsp;
   </p>
 </footer>
   </body>
